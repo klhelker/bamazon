@@ -16,7 +16,6 @@ var connection = mysql.createConnection({
   database: "bamazon"
 });
 
-
   connection.connect(function(err) {
     if (err) throw err;
     console.log("connected");
@@ -32,42 +31,47 @@ var connection = mysql.createConnection({
       console.log("-----------------------------------");
     });
   }
+ function customerInput() {
+  // query the database for all items being auctioned
+  connection.query("SELECT * FROM products", function(err, results) {
+    if (err) throw err;
+    
+   inquirer
+      .prompt([
+        {
+          name: "choice",
+          type: "list",
+          choices: function() {
+            var choiceArray = [];
+            for (var i = 0; i < results.length; i++) {
+              choiceArray.push(results[i].item_name);
+            }
+            return choiceArray;
+          },
+          message: "What is the item_id of the product you would like?"
+        },
+        {
+          name: "choice",
+          type: "input",
+          message: "How many of that item would you like?"
+        }
+      ])
+      .then(function(answer) {
+        // get the information of the chosen item
+        var chosenItem;
+        for (var i = 0; i < results.length; i++) {
+          if (results[i].item_id === answer.choice) {
+            chosenItem = results[i];
+          }
+          else {
 
-  
+          console.log("good")
+        
+        }
+      }
+      });
 
-    //     connection.query("SELECT * FROM bamazon.products", function(err, results) {
-    //       if (err) throw err;
-    //       // once you have the items, prompt the user for which they'd like to bid on
-    //       inquirer
-    //         .prompt([
-    //           {
-    //             name: "action",
-    //             type: "input",
-    //             message: " What is the id of the product you would like to buy?", 
-    //             choices: function() {
-    //               var choiceArray = [];
-    //               for (var i = 0; i < results.length; i++) {
-    //                 choiceArray.push(results[i].item_name);
-    //               }
-    //               return choiceArray;
-    //             },
-    //             message: "What is the id of the product you would like to buy?"
-    //           },
-    //           {
-    //             name: "action",
-    //             type: "input",
-    //             message: "How many units of the product would you like to buy?"
-    //           }
-    //         ]) 
-    //         .then(function(answer) {
-    //             // get the information of the chosen item
-    //             var chosenItem;
-    //             for (var i = 0; i < results.length; i++) {
-    //               if (results[i].item_name === answer.choice) {
-    //                 chosenItem = results[i];
-    //               }
-    //             }
-    //             console.log("thanks")
-    //     })
-    //     })
-    // }
+
+    
+
+    })
