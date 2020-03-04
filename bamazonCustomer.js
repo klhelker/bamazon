@@ -31,13 +31,13 @@ function queryAllItems() {
     // }
     console.table(res)
     console.log("-----------------------------------");
-    itemId(res);
+    productName(res);
   });
 
   // quantity();
 }
 
-function itemId(results) {
+function productName(results) {
 
   var choiceArray = [];
   for (var i = 0; i < results.length; i++) {
@@ -51,7 +51,7 @@ function itemId(results) {
         name: "productName",
         type: "list",
         choices: choiceArray,
-        message: "What is the item_id of the product you would like?"
+        message: "What is the name of the product you would like?"
 
       },
       {
@@ -77,8 +77,8 @@ function itemId(results) {
 
           // console.log(results[i]);
           var a = results[i];
-          console.log(a.product_name)
-          console.log(typeof(a.product_name))
+          
+          
         }
 
       }
@@ -100,13 +100,14 @@ function itemId(results) {
       ], function (err, res) {
           if (err) throw err;
         console.log("Great, we have the amount needed, your total is $" + answer.quantity * a.price)
+        startAgain();
        })
       }
       // else (answer.quantity > results[i].stock_quantity){
       else {
-        queryAllItems()
+        // queryAllItems()
         console.log("you will need to pick another amount, we do not currently have the quantity in stock")
-
+        startAgain()
       }
 
 
@@ -119,55 +120,19 @@ function startAgain() {
   inquirer
     .prompt({
       name: "chooseAgain",
-      type: "confirm",
+      type: "list",
       message: "Would you like to choose another item?",
-      default: true 
+      choices: ["Yes!", "No!"] 
       
     })
     .then(function(answer) {
-      // based on their answer, either call the bid or the post functions
-      if (answer === "POST") {
-        postAuction();
+     
+      if (answer.chooseAgain === "Yes!") {
+        queryAllItems();
       }
-      else if(answer.postOrBid === "BID") {
-        bidAuction();
-      } else{
+      else if (answer.chooseAgain === "No") {
         connection.end();
-      }
+      } 
+    
     });
 }
-
-    //var for new quantity
-    //update quantity
-
-    // function quantity() {
-    //   //   // query the database for all items being auctioned
-    //   //   connection.query("SELECT * FROM products", function(err, results) {
-    //   //     if (err) throw err;
-    //      inquirer
-    //         .prompt([
-    //           {
-    //             name: "quantity",
-    //             type: "list",
-    //             choices: function() {
-    //               var choiceArray = [];
-    //               for (var i = 0; i < results.length; i++) {
-    //                 choiceArray.push(results[i].stock_quantity);
-    //               }
-    //               return choiceArray;
-    //             },
-    //             message: "What is the quantity of the item you would like?"
-    //           }
-    //           .then(function(answer) {
-    //             var query = "SELECT * FROM products";
-    //             connection.query(query, {quantity: answer.stock_quantity}, function(err, res) {
-    //               for (var i = 0; i < res.length; i++) {
-    //                 console.log("you chose: " + res[i].stock_quantity);
-    //               }
-
-    //             })
-    //           })
-    //         ])
-    //       }
-
-
