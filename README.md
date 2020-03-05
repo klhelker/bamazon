@@ -10,7 +10,7 @@ save and require the MySQL and Inquirer npm packages for data input and storage.
 To see a video preview of the app click on the link below:
 
 
-    https://drive.google.com/file/d/1Zvq1oRbHzYXFEa2HK_dtKuMYyZUhkma2/view
+   [https://drive.google.com/file/d/1Zvq1oRbHzYXFEa2HK_dtKuMYyZUhkma2/view]
 
 open in terminal node.js <-filename-> and a products table will be shown including each of the following columns:
 
